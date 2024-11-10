@@ -8,6 +8,13 @@ public class Main
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+			Node node = new Node(NodeType.DATA_FETCH);
+			
+		node.addBehaviour(new DataFetcher());
+
+		node.run();
+
+		System.out.println("Final output: " + node.getOutput());
+
     }
 }

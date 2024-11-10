@@ -1,19 +1,24 @@
 package com.nodeflow;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import com.nodeflow.NodeBehaviour;
 
-public abstract class Node {
+public class Node {
 
   private final String nodeId;
   private NodeType nodeType;
   private Status status;
   private String inputData;
   private String output;
+	private List<NodeBehaviour> behaviours;
 
   protected Node(NodeType nodeType) {
     this.nodeId = UUID.randomUUID().toString();
     this.nodeType = nodeType;
     this.status = Status.PENDING;
+		this.behaviours = new ArrayList<>();
   }
 
   public String getNodeId() {
@@ -57,7 +62,17 @@ public abstract class Node {
 		logAction("Status updated to " + newStatus.toString());
 	}
 
-	public abstract void run();
+	public void addBehaviour(NodeBehaviour behaviour) {
+		behaviours.add(behaviour);
+	}
+
+	public void run() {
+		updateStatus(Status.RUNNING);
+		for (NodeBehaviour behaviour : behaviours) {
+			behaviour.execute(this);
+		}
+		updateStatus(Status.COMPLETED);
+	}
 
 	private void logAction(String message) {
 		System.out.println(message);
