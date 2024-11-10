@@ -1,4 +1,4 @@
-package com.nodeflow;
+package com.nodeflow.nodes;
 
 public enum NodeType {
   DATA_FETCH,

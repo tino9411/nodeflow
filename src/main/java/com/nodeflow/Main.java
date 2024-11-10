@@ -1,32 +1,29 @@
 package com.nodeflow;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
+import com.nodeflow.behaviours.DataFetcher;
+import com.nodeflow.config.BehaviourConfig;
+import com.nodeflow.config.NodeConfig;
+import com.nodeflow.config.YAMLConfigLoader;
+import com.nodeflow.nodes.Node;
+import com.nodeflow.nodes.NodeType;
 
 /** Hello world! */
 public class Main {
   public static void main(String[] args) {
+		List<NodeConfig> nodeConfigs = YAMLConfigLoader.loadConfig("config.yaml");
 
-		Map<String, String> apiConfig = new HashMap<>();
-		apiConfig.put("sourceType", "API");
-		apiConfig.put("endpoint", "https://api.example.com/data");
-
-		DataFetcher apiFetcher = new DataFetcher(apiConfig);
-		Node apiNode = new Node(NodeType.DATA_FETCH);
-		apiNode.addBehaviour(apiFetcher);
-		apiNode.run();
-		System.out.println("API Node Output: " + apiNode.getOutput());
-
-		Map<String, String> dbConfig = new HashMap<>();
-		dbConfig.put("sourceType", "Database");
-		dbConfig.put("connectionString", "jdbc:mysql://localhost:3306/mydb");
-
-		DataFetcher dbFetcher = new DataFetcher(dbConfig);
-		Node dbNode = new Node(NodeType.DATA_FETCH);
-		dbNode.addBehaviour(dbFetcher);
-		dbNode.run();
-		System.out.println("Database Node Output: " + dbNode.getOutput());
-
+		for (NodeConfig nodeConfig : nodeConfigs) {
+			Node node = new Node(NodeType.valueOf(nodeConfig.getNodeType()));
+			for (BehaviourConfig behaviourConfig : nodeConfig.getBehaviours()) {
+				if (behaviourConfig.getType().equals("DataFetcher")) {
+					DataFetcher fetcher = new DataFetcher(behaviourConfig.getConfig());
+					node.addBehaviour(fetcher);
+					node.run();
+				}
+			}
+		}
 
 	}
-}
+} 

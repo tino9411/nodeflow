@@ -1,9 +1,11 @@
-package com.nodeflow;
+package com.nodeflow.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import com.nodeflow.NodeBehaviour;
+
+import com.nodeflow.behaviours.NodeBehaviour;
+import com.nodeflow.status.Status;
 
 public class Node {
 
@@ -12,9 +14,9 @@ public class Node {
   private Status status;
   private String inputData;
   private String output;
-	private List<NodeBehaviour> behaviours;
+	private  final List<NodeBehaviour> behaviours;
 
-  protected Node(NodeType nodeType) {
+  public Node(NodeType nodeType) {
     this.nodeId = UUID.randomUUID().toString();
     this.nodeType = nodeType;
     this.status = Status.PENDING;
@@ -57,7 +59,7 @@ public class Node {
     this.output = output;
   }
 
-	protected void updateStatus(Status newStatus) {
+	public void updateStatus(Status newStatus) {
 		this.status = newStatus;
 		logAction("Status updated to " + newStatus.toString());
 	}

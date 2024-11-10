@@ -1,4 +1,4 @@
-package com.nodeflow;
+package com.nodeflow.status;
 
 public enum Status {
     PENDING,

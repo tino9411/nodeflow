@@ -1,4 +1,4 @@
-package com.nodeflow;
+package com.nodeflow.datasources;
 
 import java.util.Map;
 

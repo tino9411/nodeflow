@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import com.nodeflow.nodes.Node;
+import com.nodeflow.nodes.NodeType;
+import com.nodeflow.status.Status;
+
 class TestNode extends Node {
   protected TestNode(NodeType nodeType) {
     super(nodeType);

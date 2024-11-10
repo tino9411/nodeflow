@@ -1,0 +1,15 @@
+nodes:
+  - nodeId: "node1"
+    nodeType: "DATA_FETCH"
+    behaviours:
+      - type: "DataFetcher"
+        config:
+          sourceType: "API"
+          endpoint: "https://api.example.com/data"
+  - nodeId: "node2"
+    nodeType: "DATA_FETCH"
+    behaviours:
+      - type: "DataFetcher"
+        config:
+          sourceType: "Database"
+          connectionString: "jdbc:mysql://localhost:3306/mydb"

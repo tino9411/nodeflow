@@ -21,5 +21,10 @@
 			<version>5.7.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.29</version> <!-- You can use the latest version if preferred -->
+		</dependency>
 	</dependencies>
 </project>

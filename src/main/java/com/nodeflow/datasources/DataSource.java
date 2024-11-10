@@ -1,4 +1,4 @@
-package com.nodeflow;
+package com.nodeflow.datasources;
 
 public interface DataSource {
 	String fetchData();

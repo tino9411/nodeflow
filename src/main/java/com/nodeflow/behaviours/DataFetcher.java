@@ -1,9 +1,13 @@
-package com.nodeflow;
+package com.nodeflow.behaviours;
 
 import java.util.Map;
 
+import com.nodeflow.datasources.DataSource;
+import com.nodeflow.datasources.DataSourceFactory;
+import com.nodeflow.nodes.Node;
+
 public class DataFetcher implements NodeBehaviour {
-	private DataSource dataSource;
+	private final DataSource dataSource;
 
 	public DataFetcher(Map<String, String> config) {
 		this.dataSource = DataSourceFactory.createDataSource(config);

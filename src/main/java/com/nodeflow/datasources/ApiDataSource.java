@@ -1,7 +1,7 @@
-package com.nodeflow;
+package com.nodeflow.datasources;
 
 public class ApiDataSource implements DataSource {
-	private String endpoint;
+	private final String endpoint;
 
 	public ApiDataSource(String endpoint) {
 		this.endpoint = endpoint;

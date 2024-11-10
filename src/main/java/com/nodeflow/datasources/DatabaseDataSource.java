@@ -1,7 +1,7 @@
-package com.nodeflow;
+package com.nodeflow.datasources;
 
 public class DatabaseDataSource implements DataSource {
-	private String connectionString;
+	private final String connectionString;
 
 	public DatabaseDataSource(String connectionString) {
 		this.connectionString = connectionString;
