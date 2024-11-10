@@ -33,9 +33,9 @@ public class APIDataSource implements DataSource {
 			URI uri = buildUriWithParams();
 			HttpRequest request = buildHttpRequest(uri);
 			
-			logger.info("Making GET request to: " + uri);
-			logger.info("Headers: " + headers);
-			logger.info("Timeout: " + timeout + " seconds");
+			logger.log(Level.INFO, "Making GET request to: {0}", uri);
+			logger.log(Level.INFO, "Headers: {0}", headers);
+			logger.log(Level.INFO, "Timeout: {0} seconds", timeout);
 
 			HttpClient client = HttpClient.newHttpClient();
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -74,7 +74,7 @@ public class APIDataSource implements DataSource {
 			logger.info("Received successful response from API");
 			return response.body();
 		} else {
-			logger.warning("Received error response with status code " + response.statusCode());
+			logger.warning("Received error response with status code {0}");
 			return null;
 		}
 	}
