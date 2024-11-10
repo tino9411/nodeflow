@@ -1,44 +1,39 @@
 package com.nodeflow.datasources;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class DataSourceFactory {
 
-    public static DataSource createDataSource(Map<String, Object> config) {
-        // Get the source type and validate it
-        String sourceType = (String) config.get("sourceType");
-        if (sourceType == null) {
-            throw new IllegalArgumentException("sourceType must be specified in the configuration.");
-        }
+    private static final Map<String, Function<Map<String, Object>, DataSource>> dataSourceRegistry = new HashMap<>();
+    
+    static {
+      // Register default data sources
+      dataSourceRegistry.put("API", config -> {
+        String endpoint = (String) config.get("endpoint");
+        Map<String, String> headers = DataSourceConfigParser.extractHeaders(config);
+        Map<String, String> parameters = DataSourceConfigParser.extractParameters(config);
+        int timeout = DataSourceConfigParser.extractTimeout(config);
+        return new APIDataSource(endpoint, headers, parameters, timeout);
+      });
 
-        switch (sourceType) {
-            case "API":
-                // Retrieve the endpoint, headers, parameters, and timeout from the configuration
-                String endpoint = (String) config.get("endpoint");
-                if (endpoint == null) {
-                    throw new IllegalArgumentException("endpoint must be specified for API data source.");
-                }
+      dataSourceRegistry.put("Database", config -> {
+        String connectionString = (String) config.get("connectionString");
+        return new DatabaseDataSource(connectionString);
+      });
+    }
 
-                Map<String, String> headers = DataSourceConfigParser.extractHeaders(config);
-                Map<String, String> parameters = DataSourceConfigParser.extractParameters(config);
-                int timeout = DataSourceConfigParser.extractTimeout(config);
+    public static DataSource createDataSource(String sourceType, Map<String, Object> config) {
+      Function<Map<String, Object>, DataSource> creator = dataSourceRegistry.get(sourceType);
+      if (creator == null) {
+        throw new IllegalArgumentException("Unknown data source type: " + sourceType);
+      }
+      return creator.apply(config);
+    }
 
-                // Create and return the ApiDataSource
-                return new APIDataSource(endpoint, headers, parameters, timeout);
-
-            case "Database":
-                // Retrieve the connection string for database data source
-                String connectionString = (String) config.get("connectionString");
-                if (connectionString == null) {
-                    throw new IllegalArgumentException("connectionString must be specified for Database data source.");
-                }
-
-                // Create and return the DatabaseDataSource
-                return new DatabaseDataSource(connectionString);
-
-            default:
-                throw new IllegalArgumentException("Unknown data source type: " + sourceType);
-        }
+    public static void registerDataSource(String type, Function<Map<String, Object>, DataSource> creator) {
+      dataSourceRegistry.put(type, creator);
     }
 
    

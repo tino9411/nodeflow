@@ -1,5 +1,6 @@
 package com.nodeflow.datasources;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -7,7 +8,6 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpTimeoutException;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 
 public class APIDataSource implements DataSource {
 	private final String endpoint;
@@ -48,7 +48,7 @@ public class APIDataSource implements DataSource {
 			}
 		} catch (HttpTimeoutException e) {
 			System.err.println("Error: Request timed out after " + timeout + " seconds");
-		} catch (Exception e) {
+		} catch (InterruptedException | IOException e) {
 			System.err.println("Error: Failed to fetch data from API - " + e.getMessage());
 		}
 		return null;

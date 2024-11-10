@@ -10,7 +10,11 @@ public class DataFetcher implements NodeBehaviour {
 	private final DataSource dataSource;
 
 	public DataFetcher(Map<String, Object> config) {
-		this.dataSource = DataSourceFactory.createDataSource(config);
+		String sourceType = (String) config.get("sourceType");
+		if (sourceType == null) {
+			throw new IllegalArgumentException("Missing required 'sourceType' in DataFetcher configuration");
+		}
+		this.dataSource = DataSourceFactory.createDataSource(sourceType, config);
 	}
 
 	@Override
