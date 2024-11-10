@@ -32,20 +32,14 @@ public class APIDataSource implements DataSource {
             System.out.println("Headers: " + headers);
             System.out.println("Timeout: " + timeout + " seconds");
 
-			HttpRequest.Builder requestBuilder = HttpRequest.newBuilder().uri(uri).GET().timeout(java.time.Duration.ofSeconds(timeout));
-			headers.forEach(requestBuilder::header);
-
-			HttpRequest request = requestBuilder.build();
-
+			HttpRequest request = buildHttpRequest(uri);
+			
 			HttpClient client = HttpClient.newHttpClient();
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-			if (response.statusCode() == 200) {
-				return response.body();
-			} else {
-				System.err.println("Error: Received status code " + response.statusCode());
-				return null;
-			}
+			return handleResponse(response);
+
+			
 		} catch (HttpTimeoutException e) {
 			System.err.println("Error: Request timed out after " + timeout + " seconds");
 		} catch (InterruptedException | IOException e) {
@@ -60,6 +54,25 @@ public class APIDataSource implements DataSource {
 		}
 		String paramString = parameters.entrySet().stream().map(entry -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.joining("&"));
 		return endpoint + "?" + paramString;
+	}
+
+	private HttpRequest buildHttpRequest(URI uri) {
+		HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+				.uri(uri)
+				.GET()
+				.timeout(java.time.Duration.ofSeconds(timeout));
+				headers.forEach(requestBuilder::header);
+		return requestBuilder.build();
+	}
+
+	private String handleResponse(HttpResponse<String> response) {
+		if (response.statusCode() == 200) {
+			return response.body();
+		} else {
+			System.err.println("Error: Received status code " + response.statusCode());
+			return null;
+		}
+
 	}
 
 	public String getEndpoint() {
