@@ -6,10 +6,15 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpTimeoutException;
+import java.time.Duration;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class APIDataSource implements DataSource {
+	private static final Logger logger = Logger.getLogger(APIDataSource.class.getName());
+	
 	private final String endpoint;
 	private final Map<String, String> headers;
 	private final Map<String, String> parameters;
@@ -25,54 +30,53 @@ public class APIDataSource implements DataSource {
 	@Override
 	public String fetchData() {
 		try {
-			String uriWithParams = buildUriWithParams(endpoint , parameters);
-			URI uri = URI.create(uriWithParams);
-
-			System.out.println("Making GET request to: " + uri);
-            System.out.println("Headers: " + headers);
-            System.out.println("Timeout: " + timeout + " seconds");
-
+			URI uri = buildUriWithParams();
 			HttpRequest request = buildHttpRequest(uri);
 			
+			logger.info("Making GET request to: " + uri);
+			logger.info("Headers: " + headers);
+			logger.info("Timeout: " + timeout + " seconds");
+
 			HttpClient client = HttpClient.newHttpClient();
 			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
 			return handleResponse(response);
 
-			
 		} catch (HttpTimeoutException e) {
-			System.err.println("Error: Request timed out after " + timeout + " seconds");
+			logger.log(Level.WARNING, "Request timed out after " + timeout + " seconds", e);
 		} catch (InterruptedException | IOException e) {
-			System.err.println("Error: Failed to fetch data from API - " + e.getMessage());
+			logger.log(Level.SEVERE, "Failed to fetch data from API", e);
 		}
 		return null;
 	}
 
-	private String buildUriWithParams(String endpoint, Map<String, String> parameters) {
+	private URI buildUriWithParams() {
 		if (parameters == null || parameters.isEmpty()) {
-			return endpoint;
+			return URI.create(endpoint);
 		}
-		String paramString = parameters.entrySet().stream().map(entry -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.joining("&"));
-		return endpoint + "?" + paramString;
+		String paramString = parameters.entrySet().stream()
+				.map(entry -> entry.getKey() + "=" + entry.getValue())
+				.collect(Collectors.joining("&"));
+		return URI.create(endpoint + "?" + paramString);
 	}
 
 	private HttpRequest buildHttpRequest(URI uri) {
 		HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
 				.uri(uri)
 				.GET()
-				.timeout(java.time.Duration.ofSeconds(timeout));
-				headers.forEach(requestBuilder::header);
+				.timeout(Duration.ofSeconds(timeout));
+		headers.forEach(requestBuilder::header);
 		return requestBuilder.build();
 	}
 
 	private String handleResponse(HttpResponse<String> response) {
 		if (response.statusCode() == 200) {
+			logger.info("Received successful response from API");
 			return response.body();
 		} else {
-			System.err.println("Error: Received status code " + response.statusCode());
+			logger.warning("Received error response with status code " + response.statusCode());
 			return null;
 		}
-
 	}
 
 	public String getEndpoint() {
