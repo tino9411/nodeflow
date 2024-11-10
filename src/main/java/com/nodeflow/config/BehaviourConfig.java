@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class BehaviourConfig {
 	private String type;
-	private Map<String, String> config;
+	private Map<String, Object> config;
 
 	public String getType() {
 		return type;
@@ -14,11 +14,11 @@ public class BehaviourConfig {
 		this.type = type;
 	}
 
-	public Map<String, String> getConfig() {
+	public Map<String, Object> getConfig() {
 		return config;
 	}
 
-	public void setConfig(Map<String, String> config) {
+	public void setConfig(Map<String, Object> config) {
 		this.config = config;
 	}
 }

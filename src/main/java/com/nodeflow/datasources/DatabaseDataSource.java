@@ -12,4 +12,8 @@ public class DatabaseDataSource implements DataSource {
 		System.out.println("Fetching data from database with connection: " + connectionString);
         return "Data from database with connection " + connectionString;
 	}
+
+	public String getConnectionString() {
+		return connectionString;
+	}
 }

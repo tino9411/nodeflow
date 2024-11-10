@@ -9,7 +9,7 @@ import com.nodeflow.nodes.Node;
 public class DataFetcher implements NodeBehaviour {
 	private final DataSource dataSource;
 
-	public DataFetcher(Map<String, String> config) {
+	public DataFetcher(Map<String, Object> config) {
 		this.dataSource = DataSourceFactory.createDataSource(config);
 	}
 

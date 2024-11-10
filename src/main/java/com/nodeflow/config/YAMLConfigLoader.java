@@ -42,7 +42,7 @@ public class YAMLConfigLoader {
               behaviourConfig.setType((String) behaviourData.get("type"));
 
               @SuppressWarnings("unchecked")
-              Map<String, String> configMap = (Map<String, String>) behaviourData.get("config");
+              Map<String, Object> configMap = (Map<String, Object>) behaviourData.get("config");
 
               behaviourConfig.setConfig(configMap);
               behaviourConfigs.add(behaviourConfig);

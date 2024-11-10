@@ -5,7 +5,12 @@ nodes:
       - type: "DataFetcher"
         config:
           sourceType: "API"
-          endpoint: "https://api.example.com/data"
+          endpoint: "https://financialmodelingprep.com/api/v3/profile/AAPL"
+          timeout: 10
+          headers:
+            Content-Type: "application/json"
+          params:
+            apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
   - nodeId: "node2"
     nodeType: "DATA_FETCH"
     behaviours:
