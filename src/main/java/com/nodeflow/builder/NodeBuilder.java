@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.nodeflow.behaviours.DataFetcher;
+import com.nodeflow.behaviours.BehaviourFactory;
+import com.nodeflow.behaviours.NodeBehaviour;
 import com.nodeflow.config.BehaviourConfig;
 import com.nodeflow.config.NodeConfig;
 import com.nodeflow.config.NodeConfigFactory;
 import com.nodeflow.nodes.Node;
-import com.nodeflow.nodes.NodeType;;
+import com.nodeflow.nodes.NodeType;
+;
 
 public class NodeBuilder {
 
@@ -40,12 +42,11 @@ public class NodeBuilder {
         Node node = new Node(NodeType.valueOf(nodeConfig.getNodeType()));
         
         for (BehaviourConfig behaviourConfig : nodeConfig.getBehaviours()) {
-            if ("DataFetcher".equals(behaviourConfig.getType())) {
-                node.addBehaviour(new DataFetcher(behaviourConfig.getConfig()));
+           NodeBehaviour behaviour = BehaviourFactory.createBehaviour(behaviourConfig.getType(), behaviourConfig.getConfig());
+           node.addBehaviour(behaviour);
             }
-            // Additional behaviour types can be added here
+        return node;
         }
         
-        return node;
+        
     }
-}
