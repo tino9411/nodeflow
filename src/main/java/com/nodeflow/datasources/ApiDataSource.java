@@ -2,11 +2,7 @@ package com.nodeflow.datasources;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.net.http.HttpTimeoutException;
-import java.time.Duration;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,35 +15,24 @@ public class APIDataSource implements DataSource {
 	private final Map<String, String> headers;
 	private final Map<String, String> parameters;
 	private final int timeout;
+	private final HttpRequestHandler httpRequestHandler;
 
-	public APIDataSource(String endpoint, Map<String, String> headers, Map<String, String> parameters, int timeout) {
+	public APIDataSource(String endpoint, Map<String, String> headers, Map<String, String> parameters, int timeout, HttpRequestHandler httpRequestHandler) {
 		this.endpoint = endpoint;
 		this.headers = headers;
 		this.parameters = parameters;
 		this.timeout = timeout > 0 ? timeout : 10;
+		this.httpRequestHandler = httpRequestHandler;
 	}
 
 	@Override
-	public String fetchData() {
-		try {
+	public String fetchData() throws IOException, InterruptedException, HttpTimeoutException {
 			URI uri = buildUriWithParams();
-			HttpRequest request = buildHttpRequest(uri);
-			
 			logger.log(Level.INFO, "Making GET request to: {0}", uri);
 			logger.log(Level.INFO, "Headers: {0}", headers);
 			logger.log(Level.INFO, "Timeout: {0} seconds", timeout);
 
-			HttpClient client = HttpClient.newHttpClient();
-			HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-			return handleResponse(response);
-
-		} catch (HttpTimeoutException e) {
-			logger.log(Level.WARNING, "Request timed out after " + timeout + " seconds", e);
-		} catch (InterruptedException | IOException e) {
-			logger.log(Level.SEVERE, "Failed to fetch data from API", e);
-		}
-		return null;
+			return httpRequestHandler.sendRequest(uri, headers, timeout);		
 	}
 
 	private URI buildUriWithParams() {
@@ -58,25 +43,6 @@ public class APIDataSource implements DataSource {
 				.map(entry -> entry.getKey() + "=" + entry.getValue())
 				.collect(Collectors.joining("&"));
 		return URI.create(endpoint + "?" + paramString);
-	}
-
-	private HttpRequest buildHttpRequest(URI uri) {
-		HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-				.uri(uri)
-				.GET()
-				.timeout(Duration.ofSeconds(timeout));
-		headers.forEach(requestBuilder::header);
-		return requestBuilder.build();
-	}
-
-	private String handleResponse(HttpResponse<String> response) {
-		if (response.statusCode() == 200) {
-			logger.info("Received successful response from API");
-			return response.body();
-		} else {
-			logger.warning("Received error response with status code {0}");
-			return null;
-		}
 	}
 
 	public String getEndpoint() {

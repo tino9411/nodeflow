@@ -1,5 +1,6 @@
 package com.nodeflow.behaviours;
 
+import java.io.IOException;
 import java.util.Map;
 
 import com.nodeflow.datasources.DataSource;
@@ -19,9 +20,18 @@ public class DataFetcher implements NodeBehaviour {
 
 	@Override
 	public void execute(Node node) {
-		// Simulate fetching fetching data	
-		String data = dataSource.fetchData();
-		node.setOutput(data);
-		System.out.println("DataFetcher executed and set output: " + data);
+		try {
+			String data = dataSource.fetchData();
+			node.setOutput(data);
+			System.out.println("DataFetcher executed and set output: " + data);
+		} catch (IOException e) {
+			System.err.println("IO Error while fecthing data: " + e.getMessage());
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			System.err.println("Data fetching was interrupted");
+		} catch (Exception e) {
+			System.err.println("Unexpected error while fetching data " + e.getMessage());
+		}
+		
 	}
 }
