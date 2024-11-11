@@ -23,6 +23,13 @@ public class Node {
 		this.behaviours = new ArrayList<>();
   }
 
+  public Node(String nodeId, NodeType nodeType) {
+    this.nodeId = nodeId;
+    this.nodeType = nodeType;
+    this.status = Status.PENDING;
+    this.behaviours = new ArrayList<>();
+  }
+
   public String getNodeId() {
     return nodeId;
   }
