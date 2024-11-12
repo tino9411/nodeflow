@@ -12,8 +12,6 @@ public class OpenAIModel implements LLMModel {
             throw new IllegalArgumentException("API key is required for OpenAIModel");
         }
         this.apiKey = apiKey;
-        
-       
 
     }
 

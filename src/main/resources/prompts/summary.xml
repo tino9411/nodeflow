@@ -1,0 +1,24 @@
+<![CDATA[
+<template type="summary">
+    <metadata>
+        <purpose>Generate concise executive summary</purpose>
+        <output_format>Structured summary with key points</output_format>
+    </metadata>
+    <instructions>{INSTRUCTIONS}</instructions>
+    <content>{DATA}</content>
+    <analysis_framework>
+        <summary_sections>
+            <main_findings>
+                <overview>Key findings and insights</overview>
+                <metrics>Critical metrics and their significance</metrics>
+                <trends>Notable trends and patterns</trends>
+            </main_findings>
+            <recommendations>Action items based on findings</recommendations>
+        </summary_sections>
+        <constraints>
+            <length>Maximum 3 paragraphs</length>
+            <focus>Essential insights only</focus>
+        </constraints>
+    </analysis_framework>
+</template>
+]]>

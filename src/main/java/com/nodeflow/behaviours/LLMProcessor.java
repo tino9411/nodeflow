@@ -8,11 +8,14 @@ import com.nodeflow.models.LLMFactory;
 import com.nodeflow.models.LLMModel;
 import com.nodeflow.nodes.Node;
 import com.nodeflow.nodes.NodeRegistry;
+import com.nodeflow.prompts.PromptRegistry;
 
 public class LLMProcessor implements NodeBehaviour {
     
     private final LLMModel llmModel;
     private List<String> inputSource;
+    private String instructions;
+    private final String promptTemplate;
 
     public LLMProcessor(Map<String, Object> config) {
         String modelType = (String) config.getOrDefault("modelType", "openai");
@@ -30,11 +33,22 @@ public class LLMProcessor implements NodeBehaviour {
             System.err.println("Warning: 'inputSource' is either missing or not a List. Defaulting to empty list.");
         }
 
+        this.instructions = (String) config.get("instructions");
+        this.promptTemplate = (String) config.get("promptTemplate");
+
 
     }
 
     @Override
     public void execute(Node node) {
+
+        String prompt = buildPrompt();
+        String response = llmModel.generateResponse(prompt);
+        node.setOutput(response);
+    }
+
+    private String buildPrompt() {
+
         StringBuilder aggregatedData = new StringBuilder();
 
         for (String sourceId : inputSource) {
@@ -51,11 +65,14 @@ public class LLMProcessor implements NodeBehaviour {
                 System.out.println("Warning: Node with ID " + sourceId + " not found in registry");
             }
         }
+        String template =  PromptRegistry.getTemplate(promptTemplate);
+        template = template.replace("{INSTRUCTIONS}", instructions != null ? instructions : "");
+        template = template.replace("{DATA}", aggregatedData.toString());
 
-        // Pass aggregated data to the LLM model
-        String response = llmModel.generateResponse(aggregatedData.toString());
-        node.setOutput(response);
+        return template;
+
     }
+
 
     
 }

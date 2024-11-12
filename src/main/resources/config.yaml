@@ -55,3 +55,5 @@ nodes:
           inputSource:
             - "node1"
             - "node3"
+          promptTemplate: "detailed_analysis"
+          instructions: "Generate a report from the following data."

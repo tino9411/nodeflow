@@ -1,0 +1,31 @@
+<![CDATA[
+<template type="detailed_analysis">
+    <metadata>
+        <purpose>Conduct comprehensive data analysis</purpose>
+        <output_format>Structured analytical report</output_format>
+    </metadata>
+    <instructions>{INSTRUCTIONS}</instructions>
+    <content>{DATA}</content>
+    <analysis_framework>
+        <sections>
+            <methodology>
+                <approach>Analysis approach and methods used</approach>
+                <assumptions>Key assumptions and limitations</assumptions>
+            </methodology>
+            <findings>
+                <primary_analysis>Main analytical findings</primary_analysis>
+                <statistical_measures>Relevant statistical insights</statistical_measures>
+                <correlations>Notable relationships and patterns</correlations>
+            </findings>
+            <insights>
+                <implications>Business/practical implications</implications>
+                <recommendations>Data-driven recommendations</recommendations>
+            </insights>
+        </sections>
+        <visualization_guidelines>
+            <charts>Relevant visualization suggestions</charts>
+            <tables>Key data tables to include</tables>
+        </visualization_guidelines>
+    </analysis_framework>
+</template>
+]]>
