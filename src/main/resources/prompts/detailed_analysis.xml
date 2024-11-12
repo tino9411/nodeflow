@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<template type="summary">
-    <![CDATA[
+<template type="detailed_analysis">
+<![CDATA[
+
     <metadata>
-        <purpose>Generate concise executive summary</purpose>
-        <output_format>Structured summary with key points</output_format>
+        <purpose>Conduct comprehensive data analysis</purpose>
+        <output_format>Structured analytical report</output_format>
     </metadata>
     <instructions>{INSTRUCTIONS}</instructions>
     <content>{DATA}</content>
     <analysis_framework>
-        <summary_sections>
-            <main_findings>
-                <overview>Key findings and insights</overview>
-                <metrics>Critical metrics and their significance</metrics>
-                <trends>Notable trends and patterns</trends>
-            </main_findings>
-            <recommendations>Action items based on findings</recommendations>
-        </summary_sections>
-        <constraints>
-            <length>Maximum 3 paragraphs</length>
-            <focus>Essential insights only</focus>
-        </constraints>
+        <sections>
+            <methodology>
+                <approach>Analysis approach and methods used</approach>
+                <assumptions>Key assumptions and limitations</assumptions>
+            </methodology>
+            <findings>
+                <primary_analysis>Main analytical findings</primary_analysis>
+                <statistical_measures>Relevant statistical insights</statistical_measures>
+                <correlations>Notable relationships and patterns</correlations>
+            </findings>
+            <insights>
+                <implications>Business/practical implications</implications>
+                <recommendations>Data-driven recommendations</recommendations>
+            </insights>
+        </sections>
+        <visualization_guidelines>
+            <charts>Relevant visualization suggestions</charts>
+            <tables>Key data tables to include</tables>
+        </visualization_guidelines>
     </analysis_framework>
-    ]]>
+]]>
 </template>

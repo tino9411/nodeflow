@@ -12,48 +12,14 @@ nodes:
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
 
-  - nodeId:
-    nodeType: "DATA_FETCH"
-    behaviours:
-      - type: "DataFetcher"
-        config:
-          sourceType: "Database"
-          connectionString: "jdbc:mysql://localhost:3306/mydb"
-
-  - nodeId: "node3"
-    nodeType: "DATA_FETCH"
-    behaviours:
-      - type: "DataFetcher"
-        config:
-          sourceType: "API"
-          endpoint: "https://financialmodelingprep.com/api/v3/quote/AAPL"
-          timeout: 10
-          headers:
-            Content-Type: "application/json"
-          params:
-            apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
-
-  - nodeId: "node4"
-    nodeType: "DATA_FETCH"
-    behaviours:
-      - type: "DataFetcher"
-        config:
-          sourceType: "API"
-          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/AAPL"
-          timeout: 10
-          headers:
-            Content-Type: "application/json"
-          params:
-            apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
-
-  - nodeId: "node5"
+  - nodeId: "node2"
     nodeType: "LLM"
     behaviours:
       - type: "LLMProcessor"
         config:
           modelType: "openai"
+          model: "gpt-4o-mini"
           inputSource:
             - "node1"
-            - "node3"
           promptTemplate: "detailed_analysis"
           instructions: "Generate a report from the following data."
