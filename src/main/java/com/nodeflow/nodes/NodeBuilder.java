@@ -1,4 +1,4 @@
-package com.nodeflow.builder;
+package com.nodeflow.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,6 @@ import com.nodeflow.behaviours.NodeBehaviour;
 import com.nodeflow.config.BehaviourConfig;
 import com.nodeflow.config.NodeConfig;
 import com.nodeflow.config.NodeConfigFactory;
-import com.nodeflow.nodes.Node;
-import com.nodeflow.nodes.NodeType;
 ;
 
 public class NodeBuilder {
