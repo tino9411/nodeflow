@@ -45,3 +45,13 @@ nodes:
             Content-Type: "application/json"
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
+
+  - nodeId: "node5"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          inputSource:
+            - "node1"
+            - "node2"
