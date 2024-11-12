@@ -43,6 +43,7 @@ public class NodeBuilder {
            NodeBehaviour behaviour = BehaviourFactory.createBehaviour(behaviourConfig.getType(), behaviourConfig.getConfig());
            node.addBehaviour(behaviour);
             }
+        NodeRegistry.registerNode(node);
         return node;
         }
         
