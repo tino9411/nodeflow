@@ -54,4 +54,4 @@ nodes:
           modelType: "openai"
           inputSource:
             - "node1"
-            - "node2"
+            - "node3"

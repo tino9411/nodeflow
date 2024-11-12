@@ -7,6 +7,7 @@ import java.util.Map;
 import com.nodeflow.models.LLMFactory;
 import com.nodeflow.models.LLMModel;
 import com.nodeflow.nodes.Node;
+import com.nodeflow.nodes.NodeRegistry;
 
 public class LLMProcessor implements NodeBehaviour {
     
@@ -34,11 +35,26 @@ public class LLMProcessor implements NodeBehaviour {
 
     @Override
     public void execute(Node node) {
-        String inputData = node.getInputData();
-        // Mock LLM processingocked LLM respons
-        String response = llmModel.generateResponse(inputData);
-        
-        // Set the output of the node to the LLM's response
+        StringBuilder aggregatedData = new StringBuilder();
+
+        for (String sourceId : inputSource) {
+            Node sourceNode = NodeRegistry.findNodeById(sourceId);
+            
+            if (sourceNode != null) {
+                String output = sourceNode.getOutput();
+                if (output != null) {
+                    aggregatedData.append(output).append("\n");
+                    System.out.println("Aggregated data from " + sourceId + ": " + output); // Debug log
+                } else {
+                    System.out.println("Warning: Output from " + sourceId + " is null");
+                }
+            } else {
+                System.out.println("Warning: Node with ID " + sourceId + " not found in registry");
+            }
+        }
+
+        // Pass aggregated data to the LLM model
+        String response = llmModel.generateResponse(aggregatedData.toString());
         node.setOutput(response);
     }
 

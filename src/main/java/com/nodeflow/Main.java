@@ -19,7 +19,7 @@ public class Main {
 
         // Create a custom node programmatically and run it
         Map<String, Object> customConfig = Map.of("sourceType", "Database", "connectionString", "jdbc:mysql://localhost:3306/mydb");
-        Node dynamicNode = assembler.createNode("node5", NodeType.DATA_FETCH, "DataFetcher", customConfig);
+        Node dynamicNode = assembler.createNode("node6", NodeType.DATA_FETCH, "DataFetcher", customConfig);
         dynamicNode.run();
     }
 }

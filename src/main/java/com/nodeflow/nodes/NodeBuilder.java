@@ -37,7 +37,7 @@ public class NodeBuilder {
 
     public Node build() {
         NodeConfig nodeConfig = NodeConfigFactory.createNodeConfig(nodeId, nodeType.name(), behaviours);
-        Node node = new Node(NodeType.valueOf(nodeConfig.getNodeType()));
+        Node node = new Node(nodeId, NodeType.valueOf(nodeConfig.getNodeType()));
         
         for (BehaviourConfig behaviourConfig : nodeConfig.getBehaviours()) {
            NodeBehaviour behaviour = BehaviourFactory.createBehaviour(behaviourConfig.getType(), behaviourConfig.getConfig());
