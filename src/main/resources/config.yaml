@@ -5,6 +5,22 @@ nodes:
       - type: "DataFetcher"
         config:
           sourceType: "API"
+          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/AAPL"
+          timeout: 10
+          headers:
+            Content-Type: "application/json"
+          params:
+            apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
+    connections:
+      - targetNodeId: "node2"
+        type: "DIRECT"
+
+  - nodeId: "node3"
+    nodeType: "DATA_FETCH"
+    behaviours:
+      - type: "DataFetcher"
+        config:
+          sourceType: "API"
           endpoint: "https://financialmodelingprep.com/api/v3/profile/AAPL"
           timeout: 10
           headers:
@@ -23,5 +39,5 @@ nodes:
           modelType: "openai"
           model: "gpt-4o-mini"
           promptTemplate: "detailed_analysis"
-          instructions: "Generate a report from the following data."
+          instructions: "Generate a report from the following data, combining key metrics and profile information."
     connections: [] # No outgoing connections

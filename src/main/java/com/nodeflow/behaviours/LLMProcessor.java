@@ -38,15 +38,11 @@ public class LLMProcessor implements NodeBehaviour {
     private String buildPrompt(Node node) {
         StringBuilder aggregatedData = new StringBuilder();
         
-        // Log the input source IDs to ensure the connections are set up correctly
-        System.out.println("LLMProcessor: Input source IDs for node " + node.getNodeId() + ": " + node.getInputSources());
-        
         for (String sourceId : node.getInputSources()) {
             Node sourceNode = NodeRegistry.findNodeById(sourceId);
             
             if (sourceNode != null) {
                 String output = sourceNode.getOutput();
-                System.out.println("LLMProcessor: Retrieved output from " + sourceId + ": " + output);
                 if (output != null) {
                     aggregatedData.append(output).append("\n");
                 } else {
@@ -61,7 +57,6 @@ public class LLMProcessor implements NodeBehaviour {
         template = template.replace("{INSTRUCTIONS}", instructions != null ? instructions : "");
         template = template.replace("{DATA}", aggregatedData.toString());
         
-        System.out.println("LLMProcessor: Final prompt with data - " + template);
         
         return template;
     }
