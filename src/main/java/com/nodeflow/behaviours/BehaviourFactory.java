@@ -10,6 +10,7 @@ public class BehaviourFactory {
     static {
         // Register default behaviours
         behaviourRegistry.put("DataFetcher", DataFetcher::new);
+        behaviourRegistry.put("LLMProcessor",LLMProcessor::new);
         // Additional behaviours can be registered here
     }
 
