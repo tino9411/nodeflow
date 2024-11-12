@@ -1,5 +1,6 @@
-<![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
 <template type="summary">
+    <![CDATA[
     <metadata>
         <purpose>Generate concise executive summary</purpose>
         <output_format>Structured summary with key points</output_format>
@@ -20,5 +21,5 @@
             <focus>Essential insights only</focus>
         </constraints>
     </analysis_framework>
+    ]]>
 </template>
-]]>

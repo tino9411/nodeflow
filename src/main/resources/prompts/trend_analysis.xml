@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template type="trend_analysis">
+    <![CDATA[
+    <metadata>
+        <purpose>Identify and analyze trends over time</purpose>
+        <output_format>Timeline-based analysis</output_format>
+    </metadata>
+    <input>
+        <instructions>{INSTRUCTIONS}</instructions>
+        <data>{DATA}</data>
+    </input>
+    <analysis_framework>
+        <temporal_analysis>
+            <timeframes>
+                <short_term>Recent patterns</short_term>
+                <medium_term>Intermediate trends</medium_term>
+                <long_term>Historical patterns</long_term>
+            </timeframes>
+            <trend_components>
+                <pattern_identification>Key trends identified</pattern_identification>
+                <seasonality>Seasonal patterns if applicable</seasonality>
+                <anomalies>Notable outliers or deviations</anomalies>
+            </trend_components>
+        </temporal_analysis>
+        <forecasting>
+            <projections>Future trend projections</projections>
+            <confidence>Confidence levels in projections</confidence>
+        </forecasting>
+    </analysis_framework>
+    ]]>
+</template>

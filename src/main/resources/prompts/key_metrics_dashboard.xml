@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template type="key_metrics_dashboard">
+    <![CDATA[
+    <metadata>
+        <purpose>Present key metrics in dashboard format</purpose>
+        <output_format>Structured dashboard view</output_format>
+    </metadata>
+    <input>
+        <instructions>{INSTRUCTIONS}</instructions>
+        <data>{DATA}</data>
+    </input>
+    <dashboard_framework>
+        <metrics_display>
+            <primary_kpis>
+                <metric_name>Metric description and value</metric_name>
+                <trend>Trend direction and magnitude</trend>
+                <benchmark>Comparison to targets/benchmarks</benchmark>
+            </primary_kpis>
+            <secondary_metrics>
+                <supporting_data>Related metrics and context</supporting_data>
+                <correlations>Inter-metric relationships</correlations>
+            </secondary_metrics>
+        </metrics_display>
+        <visual_elements>
+            <charts>Key visualizations</charts>
+            <alerts>Notable deviations or achievements</alerts>
+        </visual_elements>
+    </dashboard_framework>
+    ]]>
+</template>

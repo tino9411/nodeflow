@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template type="comparative_analysis">
+    <![CDATA[
+    <metadata>
+        <purpose>Compare and contrast data points or sets</purpose>
+        <output_format>Structured comparison</output_format>
+    </metadata>
+    <input>
+        <instructions>{INSTRUCTIONS}</instructions>
+        <data>{DATA}</data>
+    </input>
+    <analysis_framework>
+        <comparison_structure>
+            <similarities>
+                <key_matches>Notable matching patterns</key_matches>
+                <shared_trends>Common trends across datasets</shared_trends>
+            </similarities>
+            <differences>
+                <key_divergences>Notable differences</key_divergences>
+                <unique_patterns>Dataset-specific patterns</unique_patterns>
+            </differences>
+            <metrics>
+                <quantitative>Numerical comparisons</quantitative>
+                <qualitative>Contextual differences</qualitative>
+            </metrics>
+        </comparison_structure>
+        <visualization>Comparative charts and tables</visualization>
+    </analysis_framework>
+    ]]>
+</template>

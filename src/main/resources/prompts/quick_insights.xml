@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template type="quick_insights">
+    <![CDATA[
+    <metadata>
+        <purpose>Generate rapid insights from data</purpose>
+        <output_format>Bulleted key points</output_format>
+    </metadata>
+    <input>
+        <instructions>{INSTRUCTIONS}</instructions>
+        <data>{DATA}</data>
+    </input>
+    <analysis_framework>
+        <quick_analysis>
+            <key_points>
+                <highlight>Most important finding</highlight>
+                <supporting_points>3-5 key insights</supporting_points>
+            </key_points>
+            <action_items>
+                <immediate>Quick action recommendations</immediate>
+                <follow_up>Areas for deeper analysis</follow_up>
+            </action_items>
+        </quick_analysis>
+        <constraints>
+            <format>Bullet points only</format>
+            <length>Maximum 10 bullets</length>
+        </constraints>
+    </analysis_framework>
+    ]]>
+</template>
