@@ -37,20 +37,15 @@ public class NodeBuilder {
 
     public Node build() {
         NodeConfig nodeConfig = NodeConfigFactory.createNodeConfig(nodeId, nodeType.name(), behaviours);
-    
-        Node node;
-        if (nodeId == null) {
-            node = new Node(NodeType.valueOf(nodeConfig.getNodeType())); // Use constructor that generates a UUID
-        } else {
-            node = new Node(nodeId, NodeType.valueOf(nodeConfig.getNodeType()));
-        }
+        Node node = (nodeId == null) ? new Node(NodeType.valueOf(nodeConfig.getNodeType())) :
+                                       new Node(nodeId, NodeType.valueOf(nodeConfig.getNodeType()));
     
         for (BehaviourConfig behaviourConfig : nodeConfig.getBehaviours()) {
            NodeBehaviour behaviour = BehaviourFactory.createBehaviour(behaviourConfig.getType(), behaviourConfig.getConfig());
            node.addBehaviour(behaviour);
         }
     
-        NodeRegistry.registerNode(node); // Register the node
+        NodeRegistry.registerNode(node);
         return node;
     }
         

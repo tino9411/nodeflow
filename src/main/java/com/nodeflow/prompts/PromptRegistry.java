@@ -40,6 +40,7 @@ public class PromptRegistry {
      *
      * @param file The XML file containing the prompt template.
      */
+    
     private static void loadPromptTemplate(File file) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

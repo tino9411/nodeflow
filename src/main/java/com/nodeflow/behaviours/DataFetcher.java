@@ -23,7 +23,6 @@ public class DataFetcher implements NodeBehaviour {
 		try {
 			String data = dataSource.fetchData();
 			node.setOutput(data);
-			System.out.println("DataFetcher executed and set output: " + data);
 		} catch (IOException e) {
 			System.err.println("IO Error while fecthing data: " + e.getMessage());
 		} catch (InterruptedException e) {

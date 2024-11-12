@@ -1,7 +1,5 @@
 package com.nodeflow.behaviours;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.nodeflow.models.LLMFactory;
@@ -13,7 +11,6 @@ import com.nodeflow.prompts.PromptRegistry;
 public class LLMProcessor implements NodeBehaviour {
     
     private final LLMModel llmModel;
-    private List<String> inputSource;
     private String instructions;
     private final String promptTemplate;
 
@@ -24,15 +21,6 @@ public class LLMProcessor implements NodeBehaviour {
         }
 
         this.llmModel = LLMFactory.createModel(modelType, config);
-
-        Object inputSourceObj = config.get("inputSource");
-        if (inputSourceObj instanceof List) {
-            this.inputSource = new ArrayList<>((List<String>) inputSourceObj);
-        } else {
-            this.inputSource = new ArrayList<>();
-            System.err.println("Warning: 'inputSource' is either missing or not a List. Defaulting to empty list.");
-        }
-
         this.instructions = (String) config.get("instructions");
         this.promptTemplate = (String) config.get("promptTemplate");
 
@@ -42,20 +30,23 @@ public class LLMProcessor implements NodeBehaviour {
     @Override
     public void execute(Node node) {
 
-        String prompt = buildPrompt();
+        String prompt = buildPrompt(node);
         String response = llmModel.generateResponse(prompt);
         node.setOutput(response);
     }
 
-    private String buildPrompt() {
-
+    private String buildPrompt(Node node) {
         StringBuilder aggregatedData = new StringBuilder();
-
-        for (String sourceId : inputSource) {
+        
+        // Log the input source IDs to ensure the connections are set up correctly
+        System.out.println("LLMProcessor: Input source IDs for node " + node.getNodeId() + ": " + node.getInputSources());
+        
+        for (String sourceId : node.getInputSources()) {
             Node sourceNode = NodeRegistry.findNodeById(sourceId);
             
             if (sourceNode != null) {
                 String output = sourceNode.getOutput();
+                System.out.println("LLMProcessor: Retrieved output from " + sourceId + ": " + output);
                 if (output != null) {
                     aggregatedData.append(output).append("\n");
                 } else {
@@ -65,12 +56,14 @@ public class LLMProcessor implements NodeBehaviour {
                 System.out.println("Warning: Node with ID " + sourceId + " not found in registry");
             }
         }
-        String template =  PromptRegistry.getTemplate(promptTemplate);
+        
+        String template = PromptRegistry.getTemplate(promptTemplate);
         template = template.replace("{INSTRUCTIONS}", instructions != null ? instructions : "");
         template = template.replace("{DATA}", aggregatedData.toString());
-
+        
+        System.out.println("LLMProcessor: Final prompt with data - " + template);
+        
         return template;
-
     }
 
 
