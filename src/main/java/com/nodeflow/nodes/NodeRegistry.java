@@ -9,6 +9,7 @@ public class NodeRegistry {
 
     public static void registerNode(Node node) {
         nodes.put(node.getNodeId(), node);
+        System.out.println("Registered node with ID: " + node.getNodeId()); // Debug log
     }
 
     public static Node findNodeById(String nodeId) {

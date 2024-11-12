@@ -44,7 +44,6 @@ public class LLMProcessor implements NodeBehaviour {
                 String output = sourceNode.getOutput();
                 if (output != null) {
                     aggregatedData.append(output).append("\n");
-                    System.out.println("Aggregated data from " + sourceId + ": " + output); // Debug log
                 } else {
                     System.out.println("Warning: Output from " + sourceId + " is null");
                 }
