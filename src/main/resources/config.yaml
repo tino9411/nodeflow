@@ -1,5 +1,6 @@
 nodes:
-  - nodeId: "node1"
+  # Data Source 1
+  - nodeId: "data_source_1"
     nodeType: "DATA_FETCH"
     behaviours:
       - type: "DataFetcher"
@@ -12,10 +13,25 @@ nodes:
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
     connections:
-      - targetNodeId: "node2"
+      - targetNodeId: "llm_processor_1"
         type: "DIRECT"
 
-  - nodeId: "node3"
+  # LLM Processor 1 - Initial Analysis
+  - nodeId: "llm_processor_1"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "summary_analysis"
+          instructions: "Provide a high-level summary and key takeaways from the provided financial metrics data."
+    connections:
+      - targetNodeId: "llm_processor_2"
+        type: "DIRECT"
+
+  # Data Source 2
+  - nodeId: "data_source_2"
     nodeType: "DATA_FETCH"
     behaviours:
       - type: "DataFetcher"
@@ -28,16 +44,17 @@ nodes:
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
     connections:
-      - targetNodeId: "node2"
+      - targetNodeId: "llm_processor_2"
         type: "DIRECT"
 
-  - nodeId: "node2"
+  # LLM Processor 2 - Comparative Analysis with Additional Data
+  - nodeId: "llm_processor_2"
     nodeType: "LLM"
     behaviours:
       - type: "LLMProcessor"
         config:
           modelType: "openai"
           model: "gpt-4o-mini"
-          promptTemplate: "detailed_analysis"
-          instructions: "Generate a report from the following data, combining key metrics and profile information."
-    connections: [] # No outgoing connections
+          promptTemplate: "comparative_analysis"
+          instructions: "Combine the summary from LLM 1 with profile data from Data Source 2 to perform a detailed comparative analysis, focusing on trends and strategic implications."
+    connections: []
