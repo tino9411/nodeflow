@@ -17,7 +17,7 @@ This project is currently under development. Some features and documentation may
 
 ## Project Overview
 
-NodeFlow aims to solve the challenge of creating dynamic, adaptable AI-driven workflows by providing a modular, node-based system that integrates various data sources and LLM nodes. It is intended to facilitate easy setup and management of data pipelines, specifically for backend engineers and developers seeking to incorporate AI-driven insights into complex, multi-step workflows without extensive front-end design requirements. This tool is designed for backend engineers and AI developers looking for a streamlined way to integrate conditional LLM processing and handle dynamic data flow in diverse use cases, from data analysis to AI-based recommendation systems.
+NodeFlow aims to solve the challenge of creating dynamic, adaptable AI-driven workflows by providing a modular, node-based system that integrates various data sources and LLM nodes. It is intended to facilitate easy setup and management of data pipelines, specifically for users looking to incorporate AI-driven insights into complex, multi-step workflows. This tool is designed for technical users, data analysts, and AI developers who need a streamlined way to integrate conditional LLM processing and handle dynamic data flow in diverse use cases, from data analysis and automation to AI-based recommendation systems.
 
 ## Features
 
