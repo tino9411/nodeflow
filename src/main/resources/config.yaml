@@ -1,111 +1,55 @@
 nodes:
-  - nodeId: "data_fetch_aapl"
+  # Data Fetch Nodes for each stock
+  - nodeId: "data_fetch_stock1"
     nodeType: "DATA_FETCH"
     behaviours:
       - type: "DataFetcher"
         config:
           sourceType: "API"
-          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/AAPL"
+          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/GOOGL"
           timeout: 10
           headers:
             Content-Type: "application/json"
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
     connections:
-      - targetNodeId: "summary_aapl"
-        type: "DIRECT"
-      - targetNodeId: "detailed_analysis_aapl"
+      - targetNodeId: "analysis_stock1"
         type: "DIRECT"
 
-  - nodeId: "data_fetch_msft"
+  - nodeId: "data_fetch_stock2"
     nodeType: "DATA_FETCH"
     behaviours:
       - type: "DataFetcher"
         config:
           sourceType: "API"
-          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/MSFT"
+          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/AMZN"
           timeout: 10
           headers:
             Content-Type: "application/json"
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
     connections:
-      - targetNodeId: "summary_msft"
-        type: "DIRECT"
-      - targetNodeId: "quick_insights_msft"
+      - targetNodeId: "analysis_stock2"
         type: "DIRECT"
 
-  - nodeId: "data_fetch_tsla"
+  - nodeId: "data_fetch_stock3"
     nodeType: "DATA_FETCH"
     behaviours:
       - type: "DataFetcher"
         config:
           sourceType: "API"
-          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/TSLA"
+          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/FB"
           timeout: 10
           headers:
             Content-Type: "application/json"
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
     connections:
-      - targetNodeId: "trend_analysis_tsla"
-        type: "DIRECT"
-      - targetNodeId: "detailed_analysis_tsla"
+      - targetNodeId: "analysis_stock3"
         type: "DIRECT"
 
-  - nodeId: "summary_aapl"
-    nodeType: "LLM"
-    behaviours:
-      - type: "LLMProcessor"
-        config:
-          modelType: "openai"
-          model: "gpt-4o-mini"
-          promptTemplate: "summary"
-          instructions: "Generate a summary for AAPL metrics."
-    connections:
-      - targetNodeId: "comparative_summary"
-        type: "DIRECT"
-
-  - nodeId: "summary_msft"
-    nodeType: "LLM"
-    behaviours:
-      - type: "LLMProcessor"
-        config:
-          modelType: "openai"
-          model: "gpt-4o-mini"
-          promptTemplate: "summary"
-          instructions: "Generate a summary for MSFT metrics."
-    connections:
-      - targetNodeId: "comparative_summary"
-        type: "DIRECT"
-
-  - nodeId: "quick_insights_msft"
-    nodeType: "LLM"
-    behaviours:
-      - type: "LLMProcessor"
-        config:
-          modelType: "openai"
-          model: "gpt-4o-mini"
-          promptTemplate: "quick_insights"
-          instructions: "Generate quick insights on MSFT."
-    connections:
-      - targetNodeId: "comparative_quick_insights"
-        type: "DIRECT"
-
-  - nodeId: "trend_analysis_tsla"
-    nodeType: "LLM"
-    behaviours:
-      - type: "LLMProcessor"
-        config:
-          modelType: "openai"
-          model: "gpt-4o-mini"
-          promptTemplate: "trend_analysis"
-          instructions: "Analyze trends for TSLA stock."
-    connections:
-      - targetNodeId: "comparative_trend_analysis"
-        type: "DIRECT"
-
-  - nodeId: "detailed_analysis_aapl"
+  # LLM Nodes for Individual Analysis for each stock
+  - nodeId: "analysis_stock1"
     nodeType: "LLM"
     behaviours:
       - type: "LLMProcessor"
@@ -113,12 +57,12 @@ nodes:
           modelType: "openai"
           model: "gpt-4o-mini"
           promptTemplate: "detailed_analysis"
-          instructions: "Perform a detailed analysis on AAPL."
+          instructions: "Analyze financial metrics for GOOGL."
     connections:
-      - targetNodeId: "comparative_detailed_analysis"
+      - targetNodeId: "combined_analysis"
         type: "DIRECT"
 
-  - nodeId: "detailed_analysis_tsla"
+  - nodeId: "analysis_stock2"
     nodeType: "LLM"
     behaviours:
       - type: "LLMProcessor"
@@ -126,56 +70,40 @@ nodes:
           modelType: "openai"
           model: "gpt-4o-mini"
           promptTemplate: "detailed_analysis"
-          instructions: "Perform a detailed analysis on TSLA."
+          instructions: "Analyze financial metrics for AMZN."
     connections:
-      - targetNodeId: "comparative_detailed_analysis"
+      - targetNodeId: "combined_analysis"
         type: "DIRECT"
 
-  - nodeId: "comparative_summary"
+  - nodeId: "analysis_stock3"
     nodeType: "LLM"
     behaviours:
       - type: "LLMProcessor"
         config:
           modelType: "openai"
           model: "gpt-4o-mini"
-          promptTemplate: "comparative_analysis"
-          instructions: "Compare summaries for AAPL and MSFT."
-    connections: []
+          promptTemplate: "detailed_analysis"
+          instructions: "Analyze financial metrics for FB."
+    connections:
+      - targetNodeId: "detailed_analysis"
+        type: "DIRECT"
 
-  - nodeId: "comparative_quick_insights"
+  # Converging LLM Node to Aggregate Analysis
+  - nodeId: "combined_analysis"
     nodeType: "LLM"
     behaviours:
       - type: "LLMProcessor"
         config:
           modelType: "openai"
           model: "gpt-4o-mini"
-          promptTemplate: "comparative_analysis"
-          instructions: "Compare quick insights from MSFT with general trends."
-    connections: []
+          promptTemplate: "combined_summary"
+          instructions: "Combine analysis insights from GOOGL, AMZN, and FB."
+    connections:
+      - targetNodeId: "final_recommendation"
+        type: "DIRECT"
 
-  - nodeId: "comparative_trend_analysis"
-    nodeType: "LLM"
-    behaviours:
-      - type: "LLMProcessor"
-        config:
-          modelType: "openai"
-          model: "gpt-4o-mini"
-          promptTemplate: "comparative_analysis"
-          instructions: "Perform a comparative trend analysis for TSLA."
-    connections: []
-
-  - nodeId: "comparative_detailed_analysis"
-    nodeType: "LLM"
-    behaviours:
-      - type: "LLMProcessor"
-        config:
-          modelType: "openai"
-          model: "gpt-4o-mini"
-          promptTemplate: "comparative_analysis"
-          instructions: "Perform a comparative detailed analysis for AAPL and TSLA."
-    connections: []
-
-  - nodeId: "user_instructions"
+  # Final LLM Node for Recommendation
+  - nodeId: "final_recommendation"
     nodeType: "LLM"
     behaviours:
       - type: "LLMProcessor"
@@ -183,5 +111,5 @@ nodes:
           modelType: "openai"
           model: "gpt-4o-mini"
           promptTemplate: "default"
-          instructions: "Process user instructions as provided."
+          instructions: "Based on the combined analysis, provide a final buy, sell or  hold recommendation."
     connections: []
