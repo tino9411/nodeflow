@@ -1,6 +1,5 @@
 nodes:
-  # Data Source 1
-  - nodeId: "data_source_1"
+  - nodeId: "data_fetch_aapl"
     nodeType: "DATA_FETCH"
     behaviours:
       - type: "DataFetcher"
@@ -13,42 +12,126 @@ nodes:
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
     connections:
-      - targetNodeId: "llm_processor_1"
+      - targetNodeId: "summary_aapl"
+        type: "DIRECT"
+      - targetNodeId: "detailed_analysis_aapl"
         type: "DIRECT"
 
-  # LLM Processor 1 - Initial Analysis
-  - nodeId: "llm_processor_1"
-    nodeType: "LLM"
-    behaviours:
-      - type: "LLMProcessor"
-        config:
-          modelType: "openai"
-          model: "gpt-4o-mini"
-          promptTemplate: "summary_analysis"
-          instructions: "Provide a high-level summary and key takeaways from the provided financial metrics data."
-    connections:
-      - targetNodeId: "llm_processor_2"
-        type: "DIRECT"
-
-  # Data Source 2
-  - nodeId: "data_source_2"
+  - nodeId: "data_fetch_msft"
     nodeType: "DATA_FETCH"
     behaviours:
       - type: "DataFetcher"
         config:
           sourceType: "API"
-          endpoint: "https://financialmodelingprep.com/api/v3/profile/AAPL"
+          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/MSFT"
           timeout: 10
           headers:
             Content-Type: "application/json"
           params:
             apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
     connections:
-      - targetNodeId: "llm_processor_2"
+      - targetNodeId: "summary_msft"
+        type: "DIRECT"
+      - targetNodeId: "quick_insights_msft"
         type: "DIRECT"
 
-  # LLM Processor 2 - Comparative Analysis with Additional Data
-  - nodeId: "llm_processor_2"
+  - nodeId: "data_fetch_tsla"
+    nodeType: "DATA_FETCH"
+    behaviours:
+      - type: "DataFetcher"
+        config:
+          sourceType: "API"
+          endpoint: "https://financialmodelingprep.com/api/v3/key-metrics/TSLA"
+          timeout: 10
+          headers:
+            Content-Type: "application/json"
+          params:
+            apikey: "YQo7qP2o3Rd3CjjgQ84nPh31uJUdklQi"
+    connections:
+      - targetNodeId: "trend_analysis_tsla"
+        type: "DIRECT"
+      - targetNodeId: "detailed_analysis_tsla"
+        type: "DIRECT"
+
+  - nodeId: "summary_aapl"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "summary"
+          instructions: "Generate a summary for AAPL metrics."
+    connections:
+      - targetNodeId: "comparative_summary"
+        type: "DIRECT"
+
+  - nodeId: "summary_msft"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "summary"
+          instructions: "Generate a summary for MSFT metrics."
+    connections:
+      - targetNodeId: "comparative_summary"
+        type: "DIRECT"
+
+  - nodeId: "quick_insights_msft"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "quick_insights"
+          instructions: "Generate quick insights on MSFT."
+    connections:
+      - targetNodeId: "comparative_quick_insights"
+        type: "DIRECT"
+
+  - nodeId: "trend_analysis_tsla"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "trend_analysis"
+          instructions: "Analyze trends for TSLA stock."
+    connections:
+      - targetNodeId: "comparative_trend_analysis"
+        type: "DIRECT"
+
+  - nodeId: "detailed_analysis_aapl"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "detailed_analysis"
+          instructions: "Perform a detailed analysis on AAPL."
+    connections:
+      - targetNodeId: "comparative_detailed_analysis"
+        type: "DIRECT"
+
+  - nodeId: "detailed_analysis_tsla"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "detailed_analysis"
+          instructions: "Perform a detailed analysis on TSLA."
+    connections:
+      - targetNodeId: "comparative_detailed_analysis"
+        type: "DIRECT"
+
+  - nodeId: "comparative_summary"
     nodeType: "LLM"
     behaviours:
       - type: "LLMProcessor"
@@ -56,5 +139,49 @@ nodes:
           modelType: "openai"
           model: "gpt-4o-mini"
           promptTemplate: "comparative_analysis"
-          instructions: "Combine the summary from LLM 1 with profile data from Data Source 2 to perform a detailed comparative analysis, focusing on trends and strategic implications."
+          instructions: "Compare summaries for AAPL and MSFT."
+    connections: []
+
+  - nodeId: "comparative_quick_insights"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "comparative_analysis"
+          instructions: "Compare quick insights from MSFT with general trends."
+    connections: []
+
+  - nodeId: "comparative_trend_analysis"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "comparative_analysis"
+          instructions: "Perform a comparative trend analysis for TSLA."
+    connections: []
+
+  - nodeId: "comparative_detailed_analysis"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "comparative_analysis"
+          instructions: "Perform a comparative detailed analysis for AAPL and TSLA."
+    connections: []
+
+  - nodeId: "user_instructions"
+    nodeType: "LLM"
+    behaviours:
+      - type: "LLMProcessor"
+        config:
+          modelType: "openai"
+          model: "gpt-4o-mini"
+          promptTemplate: "default"
+          instructions: "Process user instructions as provided."
     connections: []

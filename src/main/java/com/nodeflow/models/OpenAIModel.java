@@ -34,12 +34,12 @@ public class OpenAIModel implements LLMModel {
 
     @Override
     public String generateResponse(String input) {
-        logger.debug("Generating response for input: {}", input);
+        //logger.debug("Generating response for input: {}", input);
         
         try {
             // Build the JSON body for the API request
             JSONObject requestBody = createRequestBody(input);
-            logger.trace("Created request body: {}", requestBody);
+            //logger.trace("Created request body: {}", requestBody);
 
             // Construct the HTTP request
             HttpRequest request = createHttpRequest(requestBody);
@@ -91,7 +91,7 @@ public class OpenAIModel implements LLMModel {
     }
 
     private String parseResponse(String responseBody) {
-        logger.trace("Parsing response body: {}", responseBody);
+        //logger.trace("Parsing response body: {}", responseBody);
         JSONObject jsonResponse = new JSONObject(responseBody);
         
         if (!jsonResponse.has("choices")) {

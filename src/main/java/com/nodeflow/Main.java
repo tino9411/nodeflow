@@ -13,7 +13,7 @@ public class Main {
         List<Node> nodesFromConfig = assembler.createNodesFromConfig("config.yaml");
 
         // Initialize and execute the workflow
-        Workflow workflow = new Workflow(nodesFromConfig);
+        Workflow workflow = new Workflow(nodesFromConfig, 3);
         workflow.execute();
     }
 }

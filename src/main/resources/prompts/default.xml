@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template type="default">
+    <![CDATA[
+    <metadata>
+        <purpose>User-defined instructions</purpose>
+        <output_format>Flexible output based on user requirements</output_format>
+    </metadata>
+    <input>
+        <instructions>{INSTRUCTIONS}</instructions>
+        <data>{DATA}</data>
+    </input>
+    ]]>
+</template>
